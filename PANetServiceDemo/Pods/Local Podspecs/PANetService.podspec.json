@@ -1,0 +1,41 @@
+{
+  "name": "PANetService",
+  "version": "1.0",
+  "summary": "AFNetwork 网络请求封装",
+  "homepage": "http://code.paic.com.cn/#/repo/iosmodules/panetservice",
+  "authors": {
+    "cmb": "zhutianwei224@pingan.com.cn"
+  },
+  "license": {
+    "type": "Copyright",
+    "text": "    © 2021-2021 pingan. All rights reserved.\n"
+  },
+  "platforms": {
+    "ios": "9.0"
+  },
+  "requires_arc": true,
+  "source": {
+    "git": "ssh://git@code.paic.com.cn:8006/iosmodules/panetservice"
+  },
+  "dependencies": {
+    "AFNetworking": [
+
+    ],
+    "MBProgressHUD": [
+      "=0.8"
+    ],
+    "Reachability": [
+
+    ],
+    "JUJsonModel": [
+
+    ]
+  },
+  "source_files": "Source/*.{h,m}",
+  "subspecs": [
+    {
+      "name": "Public",
+      "source_files": "Source/Public/*.{h,m}"
+    }
+  ]
+}
