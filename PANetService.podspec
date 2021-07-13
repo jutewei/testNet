@@ -27,11 +27,11 @@ Pod::Spec.new do |s|
   s.dependency  'JUJsonModel'
 
   #s.dependency  'PADSBridge/Base'
-  s.source_files = 'Source/*.{h,m}'
+  s.source_files = 'Source/**/*.{h,m}'
 
-  s.subspec 'Public' do |n|
-     n.source_files = 'Source/Public/*.{h,m}'
-   end
+#  s.subspec 'Public' do |n|
+#     n.source_files = 'Source/Public/*.{h,m}'
+#   end
    
   
  end

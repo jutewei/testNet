@@ -14,15 +14,9 @@ PODS:
   - AFNetworking/Serialization (4.0.1)
   - AFNetworking/UIKit (4.0.1):
     - AFNetworking/NSURLSession
-  - JUJsonModel (1.0.2)
+  - JUJsonModel (1.0)
   - MBProgressHUD (0.8)
-  - PANetService (1.0):
-    - AFNetworking
-    - JUJsonModel
-    - MBProgressHUD (= 0.8)
-    - PANetService/Public (= 1.0)
-    - Reachability
-  - PANetService/Public (1.0):
+  - PANetService (1.0.2):
     - AFNetworking
     - JUJsonModel
     - MBProgressHUD (= 0.8)
@@ -45,9 +39,9 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   AFNetworking: 7864c38297c79aaca1500c33288e429c3451fdce
-  JUJsonModel: 417e8e64e8b51465273267f8fc231c7390d4c4b0
+  JUJsonModel: cb8522ccdef59df559fd5a9b9dd0b179b4c9a86d
   MBProgressHUD: 8688c331cb64702283be37ab8d7d329cdd25f251
-  PANetService: 417f8614fb24c0da27de998ddf18eab935f7b29a
+  PANetService: f75fb13f9754e4cb7fdb54bdde35c080760e54fd
   Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
 
 PODFILE CHECKSUM: 2f17749db2dd1f4f36e40317a08d91dfa977fe1a

@@ -1,8 +1,8 @@
 {
   "name": "PANetService",
-  "version": "1.0",
+  "version": "1.0.2",
   "summary": "AFNetwork 网络请求封装",
-  "homepage": "http://code.paic.com.cn/#/repo/iosmodules/panetservice",
+  "homepage": "https://github.com/jutewei/testNet",
   "authors": {
     "cmb": "zhutianwei224@pingan.com.cn"
   },
@@ -15,7 +15,7 @@
   },
   "requires_arc": true,
   "source": {
-    "git": "ssh://git@code.paic.com.cn:8006/iosmodules/panetservice"
+    "git": "https://github.com/jutewei/testNet.git"
   },
   "dependencies": {
     "AFNetworking": [
@@ -31,11 +31,5 @@
 
     ]
   },
-  "source_files": "Source/*.{h,m}",
-  "subspecs": [
-    {
-      "name": "Public",
-      "source_files": "Source/Public/*.{h,m}"
-    }
-  ]
+  "source_files": "Source/**/*.{h,m}"
 }

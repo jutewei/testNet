@@ -1,6 +1,6 @@
 //
 //  NSObject+JsonModel.m
-//  JsonModel
+//  MTSkinPublic
 //
 //  Created by Juvid on 2018/11/28.
 //  Copyright © 2018年 Juvid. All rights reserved.
@@ -8,7 +8,6 @@
 
 #import "NSObject+JsonModel.h"
 #import <objc/runtime.h>
-#import "NSObject+CopyModel.h"
 @implementation NSObject (JsonModel)
 //-(NSArray *)juIgnorekeys{
 //    return nil;
@@ -20,27 +19,26 @@
 
 //字典转换成对象
 +(id)juToModel:(NSDictionary *)dic {
-    return [self juToModel:dic withModel:nil];
+    return [self juToModel:dic withObject:nil];
 }
 -(id)juToModel:(NSDictionary *)dic{
-    return [NSObject juToModel:dic withModel:self];
+    return [NSObject juToModel:dic withObject:self];
 }
 //字典转换成对象
-+(id)juToModel:(NSDictionary *)obj withModel:(NSObject *)model{
++(id)juToModel:(NSDictionary *)dic withObject:(NSObject *)model{
     BOOL isNewObject = false;
     if (!model) {
         isNewObject=YES;
         model = [[[self class] alloc]init] ;
     }
-    if (obj==nil) {
-        obj=@{};
-    }else if (![obj isKindOfClass:[NSDictionary class]]) {
-        return obj;
+    if (![dic isKindOfClass:[NSDictionary class]]) {
+        if([dic isKindOfClass:[NSObject class]])return dic;
+        return model;
     }
-
 //    NSArray *juIgnorekeys=[model juIgnorekeys];
+
     Class class = [model class];
-    while (class!=[self juBaseClass]) {
+    while (class!=[NSObject class]) {
         unsigned int outCount, i;
         objc_property_t *properties =class_copyPropertyList([class class], &outCount);
         for (i = 0; i<outCount; i++)
@@ -52,7 +50,7 @@
             NSString *propertyName = [NSString stringWithUTF8String:char_f];
             NSString *dicKey=[self getDicKey:propertyName];
 
-            id value=obj[dicKey];
+            id value=dic[dicKey];
 
 //            if (juIgnorekeys&&[juIgnorekeys containsObject:dicKey]) {
 //                continue;
@@ -68,7 +66,7 @@
                 }
                 else{
                     if ([propertType hasPrefix:@"T@\"NSArray"]&&![value isKindOfClass:[NSArray class]]){
-                        value=[NSMutableArray array];
+                        value=[NSMutableArray new];
                     }else if ([propertType hasPrefix:@"T@\"NSString"]) {///< 转str
                         value=[NSString stringWithFormat:@"%@",value];
                     }
@@ -96,11 +94,11 @@
     for (NSDictionary *dic in arr)
     {
         if ([dic isKindOfClass:[NSDictionary class]]) {
-            NSObject * model = [self juToModel:dic];
-            [backArr addObject:model];
+            NSObject * baseModel = [self juToModel:dic];
+            [backArr addObject:baseModel];
         }
 //        修复
-        else if(dic){
+        else if([dic isKindOfClass:[NSObject class]]){
             [backArr addObject:dic];
         }
     }
@@ -113,16 +111,13 @@
 
 //对象转换成字典
 +(NSMutableDictionary *)juToDictionary:(NSObject *)model {
-    if (!model) {
-        return [NSMutableDictionary dictionary];
-    }
-    else if ([model isKindOfClass:[NSDictionary class]]) {
-        return [model mutableCopy];//防止死循环
+    if (![model isKindOfClass:[NSObject class]]) {
+        return [NSMutableDictionary dictionary];//防止死循环
     }
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
 //    NSArray *juIgnorekeys=[model juIgnorekeys];
-    Class class = [self class];
-    while (class!=[self juBaseClass]) {
+    Class class = [model class];
+    while (class!=[NSObject class]) {
         unsigned int outCount, i;
         objc_property_t *properties =class_copyPropertyList(class, &outCount);
         for (i = 0; i<outCount; i++)
@@ -140,7 +135,7 @@
             if ([propertType containsString:@"<JuIgnore>"]) {
                 continue;
             }
-
+            
             if ([model valueForKeyPath:propertyName]!=nil) {
                 [dic setObject:[model valueForKeyPath:propertyName] forKey:dicKey];
             }else if ([propertType hasPrefix:@"T@\"NSArray"]){
@@ -160,14 +155,14 @@
 
 //把模型转换回数组
 +(NSArray *)juToDicArray:(NSArray *) arr{
-    if(![arr isKindOfClass:[NSArray class]])return @[];
+    if(![arr isKindOfClass:[NSArray class]])return nil;
     NSMutableArray *backArr = [[NSMutableArray alloc ]init];
-    for (id model in arr)
+    for (id  baseModel in arr)
     {
-        NSDictionary * dic = [self juToDictionary:model];
+        NSDictionary * dic = [self juToDictionary:baseModel];
         [backArr addObject:dic];
     }
-    return backArr;
+    return backArr ;
 }
 
 -(NSString *)juToString{
@@ -175,10 +170,10 @@
 }
 
 //对象转化成字符串
-+(NSString *)juToString:(id )model{
++(NSString *)juToString:(id )baseModel{
     NSMutableString *strModel = [NSMutableString string];
-    Class class = [model class];
-    while (class!=[self juBaseClass]) {
+    Class class = [baseModel class];
+    while (class!=[NSObject class]) {
         unsigned int outCount, i;
         objc_property_t *properties =class_copyPropertyList([class class], &outCount);
         for (i = 0; i<outCount; i++)
@@ -187,7 +182,7 @@
             const char* char_f =property_getName(property);
             NSString *propertyName = [NSString stringWithUTF8String:char_f];
             NSString *dicKey=[self getDicKey:propertyName];
-            id value=[model valueForKeyPath:propertyName];
+            id value=[baseModel valueForKeyPath:propertyName];
             if(!value) value=@"";
             if (i!=0) {
                 [strModel appendFormat:@","];
@@ -198,10 +193,10 @@
         class = [class superclass];
     }
     return strModel;
-}
 
+}
 +(NSString *)getDicKey:(NSString *)propertyName{
-    for (NSString *prefix in self.juProPrefixs) {
+    for (NSString *prefix in JU_ProPrefixs) {
         if ([propertyName hasPrefix:prefix]) {
             return  [propertyName substringFromIndex:prefix.length];
         }
@@ -228,13 +223,7 @@
     free(properties);
     return arrProperty;
 }
-+(NSArray *)juProPrefixs{
-    static NSArray * juPrefixs=nil;
-    if (!juPrefixs) {
-        juPrefixs=@[@"ju_"];
-    }
-    return juPrefixs;
-}
+
 //-(NSString *)juVauleForkey:(NSString *)key{
 //    NSArray *sh_ArrProperty=[[self class] juAllProperty];
 //    NSString *Property=[NSString stringWithFormat:@"%@%@",JU_Model_Prefix,key];

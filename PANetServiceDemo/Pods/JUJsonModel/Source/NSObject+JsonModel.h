@@ -1,6 +1,6 @@
 //
 //  NSObject+JsonModel.h
-//  JsonModel
+//  MTSkinPublic
 //
 //  Created by Juvid on 2018/11/28.
 //  Copyright © 2018年 Juvid. All rights reserved.
@@ -8,7 +8,7 @@
 /**未使用**/
 #import <Foundation/Foundation.h>
 //#import "NSArray+Safe.h"
-//#define JU_ProPrefixs @[@"zl_",@"ju_"]
+#define JU_ProPrefixs @[@"ju_",@"mt_"]
 //NS_ASSUME_NONNULL_BEGIN
 
 @protocol JuIgnore
@@ -33,9 +33,9 @@
  *
  *  @return 返回转换好的对象
  */
--(id)juToModel:(NSDictionary *)dic;
-
 +(id)juToModel:(NSDictionary *)dic;
+
+-(id)juToModel:(NSDictionary *)dic;
 
 /**
  *  @author Juvid, 15-07-15 10:07:34
@@ -46,24 +46,21 @@
  *
  *  @return 返回转换好的数组，数组里为对象
  */
-+(NSArray *)juToModelArr:(NSArray <NSDictionary *>*)arr;
++(NSArray *)juToModelArr:(NSArray *)arr;
 
-/// 对象转化成字符串key=value中间逗号分隔形式
--(NSString *)juToString;
 /**
  *  @author Juvid, 15-07-15 10:07:42
  *
  *  对象转化成字符串key=value中间逗号分隔形式
  *
- *  @param model 要转换的对象
+ *  @param baseModel 要转换的对象
  *
  *  @return 返回对象字符串
  */
 
-+(NSString *)juToString:(NSObject *)model;
-
++(NSString *)juToString:(NSObject *)baseModel;
+-(NSString *)juToString;
 //对象转换成字典
--(NSMutableDictionary *)juToDictionary;
 /**
  *  @author Juvid, 15-07-15 10:07:17
  *
@@ -74,7 +71,7 @@
  *  @return 返回字典
  */
 +(NSMutableDictionary *)juToDictionary:(NSObject *)model;
-
+-(NSMutableDictionary *)juToDictionary;
 //对象数组转换成数字
 /**
  *  @author Juvid, 15-07-15 10:07:17
@@ -104,9 +101,6 @@
  */
 +(NSArray *)juAllProperty;
 //-(NSString *)juVauleForkey:(NSString *)key;
-
-+(NSArray *)juProPrefixs;
-
 @end
 
 //NS_ASSUME_NONNULL_END
