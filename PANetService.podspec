@@ -10,7 +10,7 @@ Pod::Spec.new do |s|
   s.name             = "PANetService"
   s.version          = "1.0.2"
   s.summary          = "AFNetwork 网络请求封装"
-  s.homepage         = "http://code.paic.com.cn/#/repo/iosmodules/panetservice"
+  s.homepage         = "https://github.com/jutewei/testNet"
   s.author           = { "cmb" => "zhutianwei224@pingan.com.cn" }
   s.license          = {
     :type => 'Copyright',
@@ -20,7 +20,7 @@ Pod::Spec.new do |s|
   }
   s.platform         = :ios, '9.0'
   s.requires_arc     = true
-  s.source           = { :git => "http://code.paic.com.cn/iosmodules/panetmanage.git" }
+  s.source           = { :git => "https://github.com/jutewei/testNet.git" }
   s.dependency  'AFNetworking'
   s.dependency  'MBProgressHUD','=0.8'
   s.dependency  'Reachability'
