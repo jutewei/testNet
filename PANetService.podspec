@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "PANetService"
-  s.version          = "1.0.2"
+  s.version          = "1.0.3"
   s.summary          = "AFNetwork 网络请求封装"
   s.homepage         = "https://github.com/jutewei/testNet"
   s.author           = { "cmb" => "zhutianwei224@pingan.com.cn" }
@@ -25,7 +25,8 @@ Pod::Spec.new do |s|
   s.dependency  'MBProgressHUD','=0.8'
   s.dependency  'Reachability'
   s.dependency  'JUJsonModel'
-
+  s.static_framework = true
+  
   #s.dependency  'PADSBridge/Base'
   s.source_files = 'Source/**/*.{h,m}'
 
